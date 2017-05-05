@@ -2,6 +2,7 @@ version: '3'
 services:
   crawler:
     build: .
+    image: mrgrodo/spider
     command: python main.py
     env_file:
       - .env

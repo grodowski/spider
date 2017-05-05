@@ -1,15 +1,11 @@
 # coding: utf8
 import scrapy
+import os
 import re
 
 class OtoDomSpider(scrapy.Spider):
     name = 'otodom'
-    # TODO: build a way to customize the url query :) env var?
-    start_urls = [('https://www.otodom.pl/wynajem/mieszkanie/warszawa/?search'
-                   '%5Bfilter_float_price%3Ato%5D=2500&search%5Bfilter_float_'
-                   'm%3Afrom%5D=40&search%5Bfilter_float_m%3Ato%5D=60&search%'
-                   '5Bdescription%5D=1&search%5Bdist%5D=0&search%5Bdistrict_i'
-                   'd%5D=39')]
+    start_urls = [os.getenv('CRAWL_OTODOM_URL')]
     img_url_re = '(https:\/\/.+)\)$'
 
     def parse(self, response):
