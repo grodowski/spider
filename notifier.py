@@ -7,8 +7,7 @@ from email.mime.text import MIMEText
 
 gmail_user = os.getenv('GMAIL_USER')
 gmail_pwd = os.getenv('GMAIL_PWD')
-me = os.getenv('EMAIL_FROM', 'my@email.com')
-you = os.getenv('EMAIL_TO', 'your@email.com')
+recipients = os.getenv('EMAIL_TO')
 
 def deliver_now(items):
     Notifier(items).deliver_now()
@@ -55,11 +54,11 @@ class Notifier(object):
             return
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "🕷 OtoDom"
-        msg['From'] = me
-        msg['To'] = you
+        msg['From'] = gmail_user
+        msg['To'] = recipients
         msg.attach(MIMEText(self.build_html(), 'html'))
         server_ssl = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server_ssl.ehlo()
         server_ssl.login(gmail_user, gmail_pwd)
-        server_ssl.sendmail(me, you, msg.as_string())
+        server_ssl.sendmail(gmail_user, recipients.split(','), msg.as_string())
         server_ssl.quit()
