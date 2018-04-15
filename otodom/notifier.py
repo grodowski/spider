@@ -5,6 +5,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from server.renderer import Renderer
+
 smtp_login = os.getenv('SMTP_LOGIN')
 smtp_pwd = os.getenv('SMTP_PWD')
 recipients = os.getenv('EMAIL_TO')
@@ -25,27 +27,10 @@ class Notifier(object):
             I have some new offers for you! 😇
           </p>
           <table>
-            {self.render()}
+            {Renderer().render(self.items)}
           </table>
         </body>
         </html>
-        """
-
-    def render(self):
-        ret = ""
-        for item in self.items:
-            ret += self.render_item(item)
-        return ret
-
-    def render_item(self, item):
-        return f"""
-        <tr>
-            <td>
-                <img src="{item['img_url']}" />
-            </td>
-            <td><a href="{item['url']}">{item['title']}</a></td>
-            <td>{item['price']}</td>
-        </tr>
         """
 
     def deliver_now(self):

@@ -34,7 +34,7 @@ class OtoDomSpider(scrapy.Spider):
                 'img_url': img_url,
                 'price': price_i,
                 'query_url': response.url,
-                'last_seen': last_seen,
+                'last_seen': self.last_seen,
             }
         next_page = response.css('ul.pager a[data-dir="next"]::attr(href)') \
                             .extract_first()

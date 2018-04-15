@@ -15,7 +15,7 @@ def crawl():
     def _crawl_forked():
         process = CrawlerProcess({
             'ITEM_PIPELINES': {'otodom.importer_pipeline.ImporterPipeline': 0},
-            'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
+            'USER_AGENT': 'Mozilla/5.0 (Windows NT 6.3; Win64, x64; Trident/7.0; rv:11.0) like Gecko)',
         })
         process.crawl(OtoDomSpider)
         process.start()
