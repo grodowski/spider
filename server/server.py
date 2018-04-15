@@ -2,6 +2,8 @@
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
+from main import REDIS as r
+
 http_port = int(os.getenv('PORT') or 3000)
 
 class SpiderHandler(BaseHTTPRequestHandler):
@@ -9,11 +11,12 @@ class SpiderHandler(BaseHTTPRequestHandler):
         s.send_response(200)
         s.send_header("Content-type", "text/html")
         s.end_headers()
+
         s.wfile.write(
-          """
+          f"""
             <html>
                 <body>
-                These are not the droids you're looking for...
+                  {print(f"<p>{r.hgetall(key)}</p>") for key in r.keys()}
                 </body>
             </html>
           """.encode('utf-8')

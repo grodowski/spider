@@ -15,6 +15,8 @@ REDIS_URL = os.getenv('REDIS_URL') or "redis://localhost:6379"
 print(f"Redis URL: {REDIS_URL}")
 REDIS = redis.from_url(REDIS_URL)
 
+TIME_FORMAT = '%d-%m-%Y %H:%M:%S'
+
 def crawl():
     def _crawl_forked():
         process = CrawlerProcess({

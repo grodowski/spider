@@ -3,12 +3,16 @@ import scrapy
 import os
 import re
 
+from main import TIME_FORMAT
+
 class OtoDomSpider(scrapy.Spider):
     name = 'otodom'
     start_urls = [os.getenv('CRAWL_OTODOM_URL')]
     img_url_re = '(https:\/\/.+)\)$'
 
     print(f"Spider crawling: {start_urls}")
+
+    last_seen = datetime.now().strftime(TIME_FORMAT)
 
     def parse(self, response):
         for offer in response.css('article.offer-item'):
@@ -28,6 +32,8 @@ class OtoDomSpider(scrapy.Spider):
                 'title': title,
                 'img_url': img_url,
                 'price': price_i,
+                'query_url': response.url,
+                'last_seen': last_seen,
             }
         next_page = response.css('ul.pager a[data-dir="next"]::attr(href)') \
                             .extract_first()
