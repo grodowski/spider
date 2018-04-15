@@ -5,7 +5,7 @@ import time
 from multiprocessing import Process
 from scrapy.crawler import CrawlerProcess
 from otodom.oto_dom_spider import OtoDomSpider
-from http.server import listen_and_serve
+from server.server import listen_and_serve
 
 CRAWL_INTERVAL = int(os.getenv('CRAWL_INTERVAL') or 1)
 
