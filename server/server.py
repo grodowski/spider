@@ -2,7 +2,7 @@
 import os
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-from main import REDIS as r
+from constants import REDIS as r
 
 http_port = int(os.getenv('PORT') or 3000)
 

@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 from scrapy.exceptions import DropItem
 
-from main import REDIS, TIME_FORMAT
+from constants import REDIS, TIME_FORMAT
 from otodom import notifier
 
 class ImporterPipeline(object):

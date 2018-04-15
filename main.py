@@ -9,13 +9,7 @@ from scrapy.crawler import CrawlerProcess
 from otodom.oto_dom_spider import OtoDomSpider
 from server.server import listen_and_serve
 
-CRAWL_INTERVAL = int(os.getenv('CRAWL_INTERVAL') or 1)
-
-REDIS_URL = os.getenv('REDIS_URL') or "redis://localhost:6379"
-print(f"Redis URL: {REDIS_URL}")
-REDIS = redis.from_url(REDIS_URL)
-
-TIME_FORMAT = '%d-%m-%Y %H:%M:%S'
+from constants import CRAWL_INTERVAL
 
 def crawl():
     def _crawl_forked():

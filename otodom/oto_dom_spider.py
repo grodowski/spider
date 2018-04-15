@@ -2,8 +2,9 @@
 import scrapy
 import os
 import re
+from datetime import datetime
 
-from main import TIME_FORMAT
+from constants import TIME_FORMAT
 
 class OtoDomSpider(scrapy.Spider):
     name = 'otodom'
