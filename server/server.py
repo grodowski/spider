@@ -1,8 +1,6 @@
 # coding: utf8
 import os
-import SimpleHTTPServer
-from BaseHTTPServer import BaseHTTPRequestHandler
-import SocketServer
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 http_port = int(os.getenv('PORT') or 3000)
 
@@ -20,6 +18,5 @@ class SpiderHandler(BaseHTTPRequestHandler):
         """)
 
 def listen_and_serve():
-      handler = SimpleHTTPServer.SimpleHTTPRequestHandler
-      httpd = SocketServer.TCPServer(("", http_port), SpiderHandler)
+      httpd = HTTPServer(('', http_port), SpiderHandler)
       httpd.serve_forever()
