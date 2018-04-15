@@ -3,7 +3,7 @@ import redis
 import os
 from scrapy.exceptions import DropItem
 
-import notifier
+from otodom import notifier
 
 class ImporterPipeline(object):
     def __init__(self):
