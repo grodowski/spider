@@ -4,12 +4,15 @@ import schedule
 import time
 from multiprocessing import Process
 from scrapy.crawler import CrawlerProcess
-from oto_dom_spider import OtoDomSpider
+from otodom.oto_dom_spider import OtoDomSpider
+from http.server import listen_and_serve
+
+CRAWL_INTERVAL = int(os.getenv('CRAWL_INTERVAL') or 1)
 
 def crawl():
     def _crawl_forked():
         process = CrawlerProcess({
-            'ITEM_PIPELINES': {'importer_pipeline.ImporterPipeline': 0},
+            'ITEM_PIPELINES': {'otodom.importer_pipeline.ImporterPipeline': 0},
             'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
         })
         process.crawl(OtoDomSpider)
@@ -18,9 +21,17 @@ def crawl():
     p.start()
     p.join()
 
+def start_web():
+    def _http_server():
+        print("Server ready 🌍")
+        listen_and_serve()
+    p = Process(target=_http_server)
+    p.start()
+
 if __name__ == "__main__":
+    start_web()
+    schedule.every(CRAWL_INTERVAL).minutes.do(crawl)
     print('Crawler ready 🚀')
-    schedule.every(int(os.getenv('CRAWL_INTERVAL'))).minutes.do(crawl)
     while True:
         schedule.run_pending()
         time.sleep(1)
