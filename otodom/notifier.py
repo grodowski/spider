@@ -5,8 +5,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-gmail_user = os.getenv('GMAIL_USER')
-gmail_pwd = os.getenv('GMAIL_PWD')
+smtp_login = os.getenv('SMTP_LOGIN')
+smtp_pwd = os.getenv('SMTP_PWD')
 recipients = os.getenv('EMAIL_TO')
 
 def deliver_now(items):
@@ -49,17 +49,20 @@ class Notifier(object):
         """
 
     def deliver_now(self):
+        if not (smtp_login and smtp_pwd):
+            print("Notifier: pass, SMTP not configured. Set SMTP_LOGIN and SMTP_PWD")
+            return
         if len(self.items) is 0:
-            print("Notifier: no new items - skipping")
+            print("Notifier: no new search results - skipping")
             return
         msg = MIMEMultipart('alternative')
-        msg['Subject'] = "🕷 OtoDom"
-        msg['From'] = gmail_user
+        msg['Subject'] = "New search results"
+        msg['From'] = 'OtoDom Bot'
         msg['To'] = recipients
         msg.attach(MIMEText(self.build_html(), 'html'))
-        server_ssl = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server_ssl = smtplib.SMTP_SSL('smtp.mailgun.com', 465)
         server_ssl.ehlo()
-        server_ssl.login(gmail_user, gmail_pwd)
-        server_ssl.sendmail(gmail_user, recipients.split(','), msg.as_string())
+        server_ssl.login(smtp_user, smtp_pwd)
+        server_ssl.sendmail(smtp_user, recipients.split(','), msg.as_string())
         server_ssl.quit()
         print(f"Notifier: sent mail to {recipients}")
