@@ -50,7 +50,7 @@ class Notifier(object):
 
     def deliver_now(self):
         if len(self.items) is 0:
-            print("No new items - skipping")
+            print("Notifier: no new items - skipping")
             return
         msg = MIMEMultipart('alternative')
         msg['Subject'] = "🕷 OtoDom"
@@ -62,3 +62,4 @@ class Notifier(object):
         server_ssl.login(gmail_user, gmail_pwd)
         server_ssl.sendmail(gmail_user, recipients.split(','), msg.as_string())
         server_ssl.quit()
+        print(f"Notifier: sent mail to {recipients}")

@@ -2,12 +2,18 @@
 import os
 import schedule
 import time
+import redis
+
 from multiprocessing import Process
 from scrapy.crawler import CrawlerProcess
 from otodom.oto_dom_spider import OtoDomSpider
 from server.server import listen_and_serve
 
 CRAWL_INTERVAL = int(os.getenv('CRAWL_INTERVAL') or 1)
+
+REDIS_URL = os.getenv('REDIS_URL') or "redis://localhost:6379"
+print(f"Redis URL: {REDIS_URL}")
+REDIS = redis.from_url(REDIS_URL)
 
 def crawl():
     def _crawl_forked():

@@ -8,6 +8,8 @@ class OtoDomSpider(scrapy.Spider):
     start_urls = [os.getenv('CRAWL_OTODOM_URL')]
     img_url_re = '(https:\/\/.+)\)$'
 
+    print(f"Spider crawling: {start_urls}")
+
     def parse(self, response):
         for offer in response.css('article.offer-item'):
             oid = offer.css('::attr(data-item-id)').extract_first()

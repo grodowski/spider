@@ -9,13 +9,15 @@ class SpiderHandler(BaseHTTPRequestHandler):
         s.send_response(200)
         s.send_header("Content-type", "text/html")
         s.end_headers()
-        s.wfile.write("""
+        s.wfile.write(
+          """
             <html>
                 <body>
                 These are not the droids you're looking for...
                 </body>
             </html>
-        """)
+          """.encode('utf-8')
+        )
 
 def listen_and_serve():
       httpd = HTTPServer(('', http_port), SpiderHandler)
