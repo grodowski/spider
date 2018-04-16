@@ -13,7 +13,7 @@ class ImporterPipeline(object):
 
     def process_item(self, item, spider):
         # store new_items for notifier
-        if self.rc.exists(item['oid']):
+        if not self.rc.exists(item['oid']):
             self.new_items.append(item)
 
         self.rc.hmset(
