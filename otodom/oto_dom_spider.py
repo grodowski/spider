@@ -12,7 +12,6 @@ class OtoDomSpider(scrapy.Spider):
     img_url_re = '(https:\/\/.+)\)$'
 
     print(f"Spider crawling: {start_urls}")
-
     last_seen = datetime.now().strftime(TIME_FORMAT)
 
     def parse(self, response):

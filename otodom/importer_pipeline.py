@@ -12,13 +12,21 @@ class ImporterPipeline(object):
         self.new_items = []
 
     def process_item(self, item, spider):
+        # store new_items for notifier
         if self.rc.exists(item['oid']):
-            self.rc.hset(item['oid'], 'last_seen', item['last_seen'])
-            self.rc.hincrby(item['oid'], 'seen_count', 1)
-            raise DropItem('Duplicate item found: %s' % item)
-        self.rc.hmset(item['oid'], {k:v for k, v in item.items() if k != 'oid'})
-        self.rc.hset(item['oid'], 'created_at', datetime.now().strftime(TIME_FORMAT))
-        self.new_items.append(item)
+            self.new_items.append(item)
+
+        self.rc.hmset(
+            item['oid'],
+            {
+                'url': item['url'],
+                'title': item['title'],
+                'img_url': item['img_url'],
+                'query_url': item['query_url'],
+            }
+        )
+        self.rc.rpush(f"{item['oid']}.seen_at", item['last_seen'])
+        self.rc.rpush(f"{item['oid']}.price", item['price'])
         return item
 
     def close_spider(self, spider):
