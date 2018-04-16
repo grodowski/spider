@@ -16,6 +16,6 @@ class Renderer(object):
             </td>
             <td><a href="{item['url']}">{item['title']}</a></td>
             <td>{item['price']}</td>
-            <td>Created: {item['created_at']}, Last crawled: {item['last_seen']}</td>
+            <td>{item['last_seen']}</td>
         </tr>
         """
