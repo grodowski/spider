@@ -8,7 +8,7 @@ from constants import TIME_FORMAT
 
 class OtoDomSpider(scrapy.Spider):
     name = 'otodom'
-    start_urls = [os.getenv('CRAWL_OTODOM_URL')]
+    start_urls = os.getenv('CRAWL_OTODOM_URL').split(',')
     img_url_re = '(https:\/\/.+)\)$'
 
     print(f"Spider crawling: {start_urls}")
