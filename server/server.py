@@ -30,7 +30,8 @@ class SpiderHandler(BaseHTTPRequestHandler):
     def render_items(self):
         items = []
         for key in r.keys():
-            items.append(r.hgetall(key))
+            if r.type(key) == "hash":
+                items.append(r.hgetall(key))
         return Renderer().render(items)
 
 
